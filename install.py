@@ -19,6 +19,14 @@ def onMayaDroppedPythonFile(*args, **kwargs):
     _create_shelf()
 
 
+def onMayaDroppedMelFile():
+    "for old Maya"
+    distributed = _distribute_mod_file()
+    if not distributed:
+        return
+    _create_shelf()
+
+
 def _distribute_mod_file():
     root_path = os.path.dirname(__file__)
     module_paths = mel.eval("getenv MAYA_MODULE_PATH;")
@@ -26,7 +34,6 @@ def _distribute_mod_file():
     version = cmds.about(v=True)[:4]
     module_file_template = os.path.join(root_path, _MODULE_FILE_NAME)
     module_path = user_app_dir + "{0}/{1}".format(version, "modules")
-    print(module_path)
     if module_path not in module_paths:
         cmds.error("MayaInspector install failed. Maya module path is not found.")
         return False
@@ -42,11 +49,13 @@ def _distribute_mod_file():
     with open(module_path + "/" + _MODULE_FILE_NAME, "w") as f:
         f.write(module_content)
 
-    script_path = os.path.dirname(__file__) + "/scripts"
+    script_path = root_path + "/scripts"
+    script_path = script_path.replace(os.sep, "/")
     if not os.path.exists(script_path):
+        cmds.error("MayaInspector install failed. scripts path is not found.")
         return False
     if script_path not in sys.path:
-        sys.path.insert(0, script_path)
+        sys.path.append(script_path)
 
     return True
 
@@ -77,5 +86,6 @@ win = inspector.view.MayaInspector.open()""".format(script_path)
         parent=parent
     )
 
-    if __name__ == "_installShelfTm8rMayaInspector":
-        onMayaDroppedMelFile()
+
+if __name__ == "_installShelfTm8rMayaInspector":
+    onMayaDroppedMelFile()
