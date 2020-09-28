@@ -1,0 +1,62 @@
+QTabWidget::pane {
+    border: 1px solid #373737;
+    position: absolute;
+    top: -1px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+QTabBar::tab {
+    background-color: #373737;
+    border-top: 2px solid MAIN_DARK_COLOR;
+    border-bottom-color: #373737; /* same as the pane color */
+    border-left: 1px solid #373737;
+    border-right: 1px solid #373737;
+    min-width: 8ex;
+    padding: 4px 8px;
+    margin-top: 2px;
+}
+
+QTabBar::tab:selected {
+    background-color: #444;
+    border-top: 2px solid MAIN_COLOR;
+    border-bottom-color: #444;
+    margin-top: 0px;
+}
+
+QLabel#h1 {
+    background-color: #3c3c3c;
+    font-weight: bold;
+    color: #bbb;
+    padding: 2px;
+    border-radius: 2px;
+}
+
+QToolButton#h1 {
+    background-color: MAIN_DARK_COLOR;
+    padding: 3px;
+    font-weight: bold;
+    color: #ddd;
+    border: none;
+    border-radius: 2px;
+}
+
+QFrame#inner {
+    background-color: #494949;
+    border-radius: 2px;
+}
+
+QFrame#inner QFrame#inner {
+    background-color: #505050;
+    border-radius: 2px;
+}
+
+QFrame#header {
+    background-color: #333;
+}
+
+QTreeWidget {
+    show-decoration-selected: 1;
+    selection-color: white;
+    selection-background-color: MAIN_COLOR;
+}
