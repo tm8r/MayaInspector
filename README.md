@@ -5,7 +5,7 @@ Provides easy access to node information and connection relationships.
 (BlendShape, Constraint, File, Material, Skin...)
 
 # Installation
-Drag and drop the install_shelf.py file into the Maya viewport.
+Drag and drop the install.py file into the Maya viewport.
 
 # License
 [MIT](https://en.wikipedia.org/wiki/MIT_License)

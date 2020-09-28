@@ -1,0 +1,16 @@
+/* FBX Importer install script */
+
+global proc installTm8rMayaInspector(){
+    string $whatIs = `whatIs installTm8rMayaInspector`;
+    print $whatIs;
+    string $tmpPath = `match ": (.*)" $whatIs`;
+    print $tmpPath;
+    string $melPath = `substitute ": " $tmpPath ""`;
+    print $melPath;
+    string $pythonPath = `substitute "install.mel" $melPath "install.py"`;
+    print($pythonPath);
+    python("import imp;imp.load_source('_installShelfTm8rMayaInspector', '"+$pythonPath+"')");
+}
+
+installTm8rMayaInspector();
+
