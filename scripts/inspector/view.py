@@ -16,6 +16,11 @@ from maya import OpenMayaUI as omui
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 
 try:
+    long
+except NameError:
+    long = int
+
+try:
     MAYA_WINDOW = QtCompat.wrapInstance(long(omui.MQtUtil.mainWindow()), QtWidgets.QWidget)
 except:
     MAYA_WINDOW = None
