@@ -24,20 +24,20 @@ class BlendShapePanel(panel_base.PanelBase):
         material_widget = qt.widgets.collapse_widget.QCollapseWidget("BlendShape")
         root_layout.addWidget(material_widget)
 
-        tree_widget = QtWidgets.QTreeWidget()
-        tree_widget.setHeaderHidden(True)
-        tree_widget.setColumnCount(1)
-        tree_widget.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.tree_widget = QtWidgets.QTreeWidget()
+        self.tree_widget.setHeaderHidden(True)
+        self.tree_widget.setColumnCount(1)
+        self.tree_widget.setFocusPolicy(QtCore.Qt.NoFocus)
 
-        tree_widget.itemClicked.connect(self._on_tree_item_clicked)
+        self.tree_widget.itemClicked.connect(self._on_tree_item_clicked)
 
-        material_widget.addWidget(tree_widget)
-        for i in xrange(0, len(self._blend_shapes)):
+        material_widget.addWidget(self.tree_widget)
+        for i in range(0, len(self._blend_shapes)):
             target = self._blend_shapes[i]
             item = QtWidgets.QTreeWidgetItem()
             item.setText(0, target)
 
-            tree_widget.insertTopLevelItem(i, item)
+            self.tree_widget.insertTopLevelItem(i, item)
 
             input_targets = maya.blend_shape.get_input_targets(target)
             if not input_targets:
@@ -46,7 +46,7 @@ class BlendShapePanel(panel_base.PanelBase):
                 file_item = QtWidgets.QTreeWidgetItem()
                 file_item.setText(0, f)
                 item.addChild(file_item)
-        tree_widget.expandAll()
+        self.tree_widget.expandAll()
 
     # override
     def is_target(self):
@@ -56,4 +56,15 @@ class BlendShapePanel(panel_base.PanelBase):
         return True
 
     def _on_tree_item_clicked(self, current, previous):
-        self.inner_selection_changed.emit(current.text(0))
+        selected = self.tree_widget.selectedIndexes()
+        if not selected:
+            return
+
+        targets = []
+        for index in selected:
+            item = self.tree_widget.itemFromIndex(index)
+            if not item or not item.data:
+                return
+            targets.append(item.data(0, QtCore.Qt.DisplayRole))
+
+        self.inner_selection_changed.emit(targets)
